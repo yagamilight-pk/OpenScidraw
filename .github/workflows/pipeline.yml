@@ -17,6 +17,9 @@ concurrency:
   group: asset-pipeline-${{ github.ref }}
   cancel-in-progress: false
 
+env:
+  SKIP_PIPELINE: 'false'
+
 jobs:
   process-and-commit:
     name: Process SVG Assets & Update Manifest
