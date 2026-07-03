@@ -570,6 +570,64 @@ export const CanvasStage = forwardRef<CanvasStageHandle, CanvasStageProps>((
     return () => obs.disconnect();
   }, [triggerRedraw]);
 
+  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+  }, []);
+
+  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    try {
+      const dataStr = e.dataTransfer.getData('application/json');
+      if (!dataStr) return;
+      const data = JSON.parse(dataStr);
+      if (data.type === 'bioicon') {
+        const rect = canvasRef.current!.getBoundingClientRect();
+        const dropX = (e.clientX - rect.left - viewport.x) / viewport.zoom;
+        const dropY = (e.clientY - rect.top - viewport.y) / viewport.zoom;
+        
+        const maxZ = elements.reduce((m, el) => Math.max(m, el.zIndex), 0);
+        const newEl: CanvasObject = {
+          id: `el_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
+          type: 'svg-asset',
+          assetId: data.id,
+          assetPath: data.path || null,
+          svgRawContent: data.svg,
+          label: data.name,
+          category: data.category || 'General',
+          boundingBox: {
+            x: dropX - 60,
+            y: dropY - 60,
+            width: 120,
+            height: 120,
+          },
+          transform: { scaleX: 1, scaleY: 1, rotation: 0, translateX: 0, translateY: 0, skewX: 0, skewY: 0, flipHorizontal: false, flipVertical: false },
+          modifications: {
+            colorOverrides: [],
+            globalFill: { color: '#3b82f6', opacity: 1, rule: 'nonzero' },
+            globalStroke: { color: 'none', width: 0, dashArray: 'none', dashOffset: 0, lineCap: 'round', lineJoin: 'round', miterLimit: 4, opacity: 1 },
+            globalOpacity: 1,
+            blendMode: 'normal',
+            dropShadow: { enabled: false, offsetX: 2, offsetY: 2, blur: 4, color: '#000000', opacity: 0.3 },
+            filters: { grayscale: 0, brightness: 1, contrast: 1, saturate: 1, hueRotate: 0, blur: 0 }
+          },
+          textLayout: null,
+          primitiveParams: null,
+          zIndex: maxZ + 1,
+          locked: false,
+          visible: true,
+          groupId: null,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+        onUpdateElements([...elements, newEl]);
+        onSelect(newEl.id);
+      }
+    } catch (err) {
+      console.error('Error handling dropped asset:', err);
+    }
+  }, [elements, viewport, onUpdateElements, onSelect]);
+
   useImperativeHandle(ref, () => ({
     exportPNG: async (scale = 2) => {
       const src = canvasRef.current;
@@ -611,7 +669,12 @@ export const CanvasStage = forwardRef<CanvasStageHandle, CanvasStageProps>((
   const cursorClass = dragMode === 'pan' ? 'cursor-grabbing' : activeBrush !== 'none' ? 'cursor-crosshair' : dragMode === 'move' ? 'cursor-move' : 'cursor-default';
 
   return (
-    <div ref={wrapRef} className="relative flex-1 h-full overflow-hidden bg-[#0b0f19]">
+    <div 
+      ref={wrapRef} 
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+      className="relative flex-1 h-full overflow-hidden bg-[#0b0f19]"
+    >
       <canvas
         ref={canvasRef}
         onMouseDown={handleMouseDown}

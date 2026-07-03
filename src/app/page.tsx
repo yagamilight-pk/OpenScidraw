@@ -1,3 +1,4 @@
+import { AssetLibrary } from '../components/AssetLibrary';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { SidebarAssetPanel } from '../components/SidebarAssetPanel';
 import type { PatternBrushTheme } from '../components/SidebarAssetPanel';
@@ -349,14 +350,7 @@ export default function Page() {
         {/* Left Resizable Sidebar */}
         <div className={`transition-all duration-300 ease-in-out shrink-0 bg-[#0f1623] border-r border-[#1e2d45] ${isLeftOpen ? 'w-[320px]' : 'w-0 overflow-hidden border-none'}`}>
           <div className="w-[320px] h-full flex flex-col">
-            <SidebarAssetPanel
-              manifest={manifest}
-              selectedBrush={activeBrush}
-              onSelectBrush={setActiveBrush}
-              onAddAsset={handleAddAsset}
-              onCSVDrop={handleCSVDrop}
-              onXLSXDrop={handleXLSXDrop}
-            />
+            <AssetLibrary />
           </div>
         </div>
 
