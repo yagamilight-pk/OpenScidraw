@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg" data-osd-version="1.0.0">
+  
+  
+  <line x1="30" y1="30" x2="70" y2="30" stroke="currentColor" stroke-width="3" data-osd-hook="hook_0000" data-osd-stroke-original="#f43f5e" />
+  <line x1="40" y1="60" x2="60" y2="60" stroke="currentColor" stroke-width="3" data-osd-hook="hook_0001" data-osd-stroke-original="#eab308" />
+  <line x1="50" y1="90" x2="50" y2="90" stroke="currentColor" stroke-width="3" data-osd-hook="hook_0002" data-osd-stroke-original="#10b981" />
+  <line x1="40" y1="120" x2="60" y2="120" stroke="currentColor" stroke-width="3" data-osd-hook="hook_0003" data-osd-stroke-original="#3b82f6" />
+  <line x1="30" y1="150" x2="70" y2="150" stroke="currentColor" stroke-width="3" data-osd-hook="hook_0004" data-osd-stroke-original="#f43f5e" />
+  <line x1="45" y1="180" x2="55" y2="180" stroke="currentColor" stroke-width="3" data-osd-hook="hook_0005" data-osd-stroke-original="#10b981" />
+
+  
+  <path d="M 30 10 C 50 10, 70 50, 70 90 C 70 130, 30 170, 30 210" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" data-osd-hook="hook_0006" data-osd-stroke-original="#3b82f6" />
+  
+  <path d="M 70 10 C 50 10, 30 50, 30 90 C 30 130, 70 170, 70 210" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" data-osd-hook="hook_0007" data-osd-stroke-original="#ef4444" />
+</svg>
